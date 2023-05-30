@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root{
+  --gray-primary: #31333B
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  background-color: var(--gray-primary);
+  color: white;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+@layer components {
+  .screen-width {
+    @apply mx-auto sm:w-[400px] md:w-[700px] xl:w-[1260px] 2xl:w-[1500px];
+  }
+
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    display: none;
+  }
+
+  .btn-primary {
+    @apply bg-blue-primary rounded-lg text-gray-300 hover:opacity-75 hover:delay-75;
+  }
+
+  .bg-yellow-gradient{
+    @apply bg-gradient-to-r from-yellow-primary to-yellow-secondary;
+  }
+
+  .bg-red-gradient {
+    @apply bg-gradient-to-r from-red-primary to-red-secondary;
+  }
+
+  .bg-green-gradient {
+    @apply bg-gradient-to-r from-green-primary to-green-secondary;
+  }
+
+  .bg-gray-gradient {
+    @apply bg-gradient-to-r from-gray-primary to-black-primary ;
+  }
+}
