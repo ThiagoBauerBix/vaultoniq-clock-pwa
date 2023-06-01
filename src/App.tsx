@@ -1,10 +1,13 @@
 import Router from "./routes";
 import { AuthProvider } from "./contexts/AuthContext";
+import { StepProvider } from "./contexts/StepContext";
 
 function App() {
   return (
     <AuthProvider>
-      <Router />
+      <StepProvider>
+        <Router />
+      </StepProvider>
     </AuthProvider>
   );
 }

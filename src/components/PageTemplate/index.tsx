@@ -1,6 +1,5 @@
 import { Outlet } from "react-router-dom";
 import Header from "../Header";
-import Footer from "../Footer";
 
 export default function PageTemplate() {
   return (
@@ -10,13 +9,13 @@ export default function PageTemplate() {
           <Header />
         </div>
 
-        <div className="mx-auto h-auto">
+        <div>
           <Outlet />
         </div>
 
-        <div className="h-auto">
+        {/* <div className="h-auto">
           <Footer />
-        </div>
+        </div> */}
       </main>
     </div>
   );
