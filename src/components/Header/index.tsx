@@ -14,9 +14,9 @@ export default function Header() {
 
   const activeStep = useCallback((stepName: string) => {
     if (window.location.pathname == stepName) {
-      return "w-1/5 h-[2px] bg-blue-500";
+      return "w-1/5 h-[5px] bg-blue-500";
     }
-    return "w-1/5 h-[2px]";
+    return "w-1/5 h-[5px]";
   }, []);
 
   return (

@@ -2,6 +2,7 @@ import { Camera, CaretLeft } from "@phosphor-icons/react";
 import { useNavigate } from "react-router-dom";
 import { useStep } from "../../hooks/useStep";
 import { useEffect } from "react";
+import { MediaPicker } from "../../components/MediaPicker";
 
 export default function Photos() {
   const navigate = useNavigate();
@@ -15,7 +16,9 @@ export default function Photos() {
   }, [setHeaderInfo]);
   return (
     <div>
-      <section className="w-full mt-7 flex flex-row items-center justify-between gap-2">
+      <MediaPicker />
+
+      <section className="w-full mt-2 flex flex-row items-center justify-between gap-2">
         <button
           onClick={() => navigate("/timer")}
           className="btn-primary bg-transparent p-4 flex flex-row items-center gap-2 justify-center text-white"
@@ -28,14 +31,17 @@ export default function Photos() {
           />
           Back
         </button>
-        <button className="bg-blue-primary rounded-full p-5 flex flex-row items-center gap-2 justify-center text-white">
+        <label
+          htmlFor="media"
+          className="bg-blue-primary rounded-full p-4 flex flex-row items-center gap-2 justify-center text-white"
+        >
           <Camera
-            className="bg-transparent"
+            className="bg-transparent self-center"
             color="#fff"
             size={38}
             weight="fill"
           />
-        </button>
+        </label>
         <button
           onClick={() => navigate("/notes")}
           className="btn-primary px-8 py-4 mr-4 flex flex-row items-center gap-2 justify-center text-white"
