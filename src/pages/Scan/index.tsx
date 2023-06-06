@@ -16,7 +16,6 @@ export default function Scan() {
   }, [setHeaderInfo]);
   return (
     <div>
-      <h2 className="text-xl">Scan page</h2>
       <div>
         <QrReader
           onResult={(result, error) => {
@@ -27,14 +26,14 @@ export default function Scan() {
             }
 
             if (error) {
-              console.info(error);
+              // console.info(error);
             }
           }}
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           style={{ width: "100%" }}
         />
-        <span>{data}</span>
+        {/* <span>{data}</span> */}
       </div>
       <div className="flex flex-row items-center mt-[25vh]">
         <button

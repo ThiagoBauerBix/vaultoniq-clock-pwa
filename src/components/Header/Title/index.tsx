@@ -26,7 +26,14 @@ export default function HeaderTitle({ headerInfo }: HeaderTitle) {
     <div className="flex flex-row items-center gap-4 bg-transparent">
       <Suspense fallback={<div>Carregando...</div>}>
         {IconComponent && (
-          <IconComponent color="#fff" size={28} weight="fill" />
+          <IconComponent
+            style={{
+              backgroundColor: "transparent",
+            }}
+            color="#fff"
+            size={28}
+            weight="fill"
+          />
         )}
       </Suspense>
       <h2 className="text-xl leading-relaxed bg-transparent">{title}</h2>

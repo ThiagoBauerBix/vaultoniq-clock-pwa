@@ -1,9 +1,9 @@
 import { createContext, useState } from "react";
 
 type StepContextType = {
-  steps: any;
+  steps: object[];
   headerTitle: string;
-  setHeaderTitle: any;
+  setHeaderTitle: () => void;
 };
 
 type HeaderInfo = {
@@ -43,6 +43,15 @@ export const StepProvider = ({ children }: any) => {
   ];
 
   const [headerInfo, setHeaderInfo] = useState<HeaderInfo>({} as HeaderInfo);
+  const [previews, setPreviews] = useState<string[] | null>(null);
+  const [notes, setNotes] = useState<string | null>("");
+  const [time, setTime] = useState<number | null>(0);
+
+  function clearStates() {
+    setTime(0);
+    setNotes("");
+    setPreviews(null);
+  }
 
   return (
     <StepContext.Provider
@@ -50,6 +59,13 @@ export const StepProvider = ({ children }: any) => {
         steps,
         headerInfo,
         setHeaderInfo,
+        previews,
+        setPreviews,
+        notes,
+        setNotes,
+        time,
+        setTime,
+        clearStates,
       }}
     >
       {children}

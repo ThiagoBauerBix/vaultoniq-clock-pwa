@@ -17,7 +17,6 @@ export default function Photos() {
   return (
     <div>
       <MediaPicker />
-
       <section className="w-full mt-2 flex flex-row items-center justify-between gap-2">
         <button
           onClick={() => navigate("/timer")}
