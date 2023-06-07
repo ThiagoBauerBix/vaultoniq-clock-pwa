@@ -25,7 +25,6 @@ export default function Notes() {
   }, [setHeaderInfo]);
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log(data.notes);
     setNotes(data.notes);
     navigate("/review");
   };

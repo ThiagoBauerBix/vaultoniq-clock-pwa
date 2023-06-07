@@ -1,4 +1,5 @@
 import { createContext, useState } from "react";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 
 type StepContextType = {
   steps: object[];
@@ -46,6 +47,7 @@ export const StepProvider = ({ children }: any) => {
   const [previews, setPreviews] = useState<string[] | null>(null);
   const [notes, setNotes] = useState<string | null>("");
   const [time, setTime] = useState<number | null>(0);
+  const [theme, setTheme] = useLocalStorage("theme", "light");
 
   function clearStates() {
     setTime(0);
@@ -66,6 +68,8 @@ export const StepProvider = ({ children }: any) => {
         time,
         setTime,
         clearStates,
+        theme,
+        setTheme,
       }}
     >
       {children}
