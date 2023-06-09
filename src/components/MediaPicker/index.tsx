@@ -1,5 +1,6 @@
-import { ChangeEvent, Key, SetStateAction } from "react";
+import { ChangeEvent } from "react";
 import { useStep } from "../../hooks/useStep";
+import { getImgPreview } from "../../services/imagePreview";
 
 export function MediaPicker() {
   const { previews, setPreviews } = useStep();
@@ -11,12 +12,8 @@ export function MediaPicker() {
       return;
     }
 
-    const previewURLs: SetStateAction<string[] | null> = [];
-
-    for (let i = 0; i < files.length; i++) {
-      previewURLs.push(URL.createObjectURL(files[i]));
-    }
-
+    const previewURLs = getImgPreview(files);
+    console.log(JSON.stringify(files));
     setPreviews(previewURLs);
   }
 
@@ -32,14 +29,16 @@ export function MediaPicker() {
         className="invisible h-0 w-0"
       />
       <div className="flex flex-col items-center gap-4 py-2 px-4 mt-[-12px]">
-        {previews?.map((item: string | undefined) => (
-          <img
-            key={item}
-            src={item}
-            alt=""
-            className="aspect-video w-full h-full rounded-lg object-cover"
-          />
-        ))}
+        {previews?.map((item: string | undefined) => {
+          return (
+            <img
+              key={item}
+              src={item}
+              alt=""
+              className="aspect-video w-full h-full rounded-lg object-cover"
+            />
+          );
+        })}
       </div>
     </>
   );

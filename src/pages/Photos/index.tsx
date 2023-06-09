@@ -6,7 +6,7 @@ import { MediaPicker } from "../../components/MediaPicker";
 
 export default function Photos() {
   const navigate = useNavigate();
-  const { setHeaderInfo, theme, setTheme } = useStep();
+  const { setHeaderInfo } = useStep();
 
   useEffect(() => {
     setHeaderInfo({
@@ -14,6 +14,7 @@ export default function Photos() {
       icon: "camera",
     });
   }, [setHeaderInfo]);
+
   return (
     <div>
       <MediaPicker />
@@ -48,17 +49,6 @@ export default function Photos() {
           Next
         </button>
       </section>
-      <div>{theme}</div>
-      <button
-        className="btn-primary p-2 my-2"
-        onClick={() => setTheme("light")}
-      >
-        turn light
-      </button>
-      <br />
-      <button className="btn-primary p-2 my-2" onClick={() => setTheme("dark")}>
-        turn dark
-      </button>
     </div>
   );
 }

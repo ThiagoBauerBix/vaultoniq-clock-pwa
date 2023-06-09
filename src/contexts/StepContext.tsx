@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 
 type StepContextType = {
@@ -44,16 +44,17 @@ export const StepProvider = ({ children }: any) => {
   ];
 
   const [headerInfo, setHeaderInfo] = useState<HeaderInfo>({} as HeaderInfo);
-  const [previews, setPreviews] = useState<string[] | null>(null);
-  const [notes, setNotes] = useState<string | null>("");
-  const [time, setTime] = useState<number | null>(0);
-  const [theme, setTheme] = useLocalStorage("theme", "light");
+  const [previews, setPreviews] = useLocalStorage("previews", []);
+  const [notes, setNotes] = useLocalStorage("notes", "");
+  const [time, setTime] = useLocalStorage("time", 0);
 
   function clearStates() {
     setTime(0);
     setNotes("");
     setPreviews(null);
   }
+
+  // useEffect(() => {}, []);
 
   return (
     <StepContext.Provider
@@ -68,8 +69,6 @@ export const StepProvider = ({ children }: any) => {
         time,
         setTime,
         clearStates,
-        theme,
-        setTheme,
       }}
     >
       {children}
