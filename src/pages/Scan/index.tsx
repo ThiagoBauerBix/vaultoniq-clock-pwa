@@ -14,6 +14,7 @@ export default function Scan() {
       icon: "qrcode",
     });
   }, [setHeaderInfo]);
+
   return (
     <div>
       <div>
@@ -33,7 +34,7 @@ export default function Scan() {
           // @ts-ignore
           style={{ width: "100%" }}
         />
-        {/* <span>{data}</span> */}
+        <span>{data}</span>
       </div>
       <div className="flex flex-row items-center mt-[25vh]">
         <button
