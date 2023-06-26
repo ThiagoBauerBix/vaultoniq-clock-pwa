@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useStep } from "../../hooks/useStep";
 import { useNavigate } from "react-router-dom";
 import { QrReader } from "react-qr-reader";
@@ -15,6 +15,13 @@ export default function Scan() {
     });
   }, [setHeaderInfo]);
 
+  const fetchData = useCallback(async (url: string) => {
+    console.log("url", url);
+
+    const taskData = await fetch(url).then((res) => res.json());
+    console.log(taskData);
+  }, []);
+
   return (
     <div>
       <div>
@@ -24,6 +31,9 @@ export default function Scan() {
               // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-ignore
               setData(result?.text);
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+              fetchData(result?.text);
             }
 
             if (error) {
