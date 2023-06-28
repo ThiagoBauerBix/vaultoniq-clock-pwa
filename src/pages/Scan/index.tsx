@@ -6,7 +6,7 @@ import { QrReader } from "react-qr-reader";
 export default function Scan() {
   const { setHeaderInfo } = useStep();
   const navigate = useNavigate();
-  const [data, setData] = useState("No result");
+  const [data, setData] = useState("");
 
   useEffect(() => {
     setHeaderInfo({
@@ -47,12 +47,14 @@ export default function Scan() {
         <span>{data}</span>
       </div>
       <div className="flex flex-row items-center mt-[25vh]">
-        <button
-          className="w-full btn-primary mx-4 py-4 mr-4 flex flex-row items-center gap-2 justify-center text-white"
-          onClick={() => navigate("/timer")}
-        >
-          Next
-        </button>
+        {data && (
+          <button
+            className="w-full btn-primary mx-4 py-4 mr-4 flex flex-row items-center gap-2 justify-center text-white"
+            onClick={() => navigate("/timer")}
+          >
+            Next
+          </button>
+        )}
       </div>
     </div>
   );
