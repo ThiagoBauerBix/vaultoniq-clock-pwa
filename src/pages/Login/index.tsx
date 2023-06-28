@@ -1,16 +1,36 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Logo from "../../assets/images/vaultoniq_logo.png";
+import { useAuth } from "../../hooks/useAuth";
+import api from "../../services/api";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const { setAccessToken, setRefreshToken, saveToStorage, setIsAuthenticated } =
+    useAuth();
   const navigate = useNavigate();
 
   async function handleLogin(event: { preventDefault: () => void }) {
     event.preventDefault();
-    console.log(username, password);
-    navigate("/");
+    try {
+      const res = await api.post("/auth/token/", {
+        username,
+        password,
+      });
+      setAccessToken(res.data.access);
+      setRefreshToken(res.data.refresh);
+
+      api.defaults.headers.common.Authorization = `Bearer ${res.data.access}`;
+
+      saveToStorage(res.data.access, res.data.refresh);
+
+      setIsAuthenticated(true);
+      navigate("/");
+    } catch (error) {
+      alert("invalid credentials");
+      console.error(error);
+    }
   }
   return (
     <section className="h-full w-full text-white">
