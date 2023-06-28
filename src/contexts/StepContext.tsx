@@ -46,10 +46,16 @@ export const StepProvider = ({ children }: any) => {
   const [headerInfo, setHeaderInfo] = useState<HeaderInfo>({} as HeaderInfo);
   const [previews, setPreviews] = useLocalStorage("previews", []);
   const [notes, setNotes] = useLocalStorage("notes", "");
-  const [time, setTime] = useLocalStorage("time", 0);
+  const [accTime, setAccTime] = useLocalStorage("accTime", 0);
+  const [workSessionTime, setWorkSessionTime] = useLocalStorage("workSessionTime", 0);
+  const [ timerWarningNotes, setTimerWarningNotes] = useLocalStorage("timerWarningNotes", '');
+  const [ startedAt, setStartedAt] = useLocalStorage("startTime", '');
+  const [ finishedAt, setFinishedAt] = useLocalStorage("startTime", '');
+  
 
   function clearStates() {
-    setTime(0);
+    setWorkSessionTime(0);
+    setAccTime(0);
     setNotes("");
     setPreviews(null);
   }
@@ -66,9 +72,17 @@ export const StepProvider = ({ children }: any) => {
         setPreviews,
         notes,
         setNotes,
-        time,
-        setTime,
+        accTime,
+        setAccTime,
         clearStates,
+        workSessionTime,
+        setWorkSessionTime,
+        timerWarningNotes,
+        setTimerWarningNotes,
+        startedAt,
+        setStartedAt,
+        finishedAt,
+        setFinishedAt
       }}
     >
       {children}
