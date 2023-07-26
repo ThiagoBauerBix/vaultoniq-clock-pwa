@@ -33,5 +33,4 @@ jobs:
             --cluster ${{ secrets.CLUSTER_NAME }} \
             --task-definition ${{ secrets.TASK_DEFINITION }} \
             --service ${{ secrets.SERVICE_NAME }} \
-            --force-new-deployment \
-            --enable-execute-command
+            --force-new-deployment
