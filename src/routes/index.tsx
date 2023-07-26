@@ -7,6 +7,7 @@ import Photos from "../pages/Photos";
 import Scan from "../pages/Scan";
 import Notes from "../pages/Notes";
 import Review from "../pages/Review";
+import HealthCheck from "../pages/HealthCheck";
 
 export default function Router() {
   return (
@@ -20,6 +21,7 @@ export default function Router() {
           <Route path="/review" element={<Review />} />
         </Route>
         <Route path="/login" element={<Login />} />
+        <Route path="/health-check" element={<HealthCheck />} />
         <Route path="*" element={<EmptyPage />} />
       </Routes>
     </BrowserRouter>
