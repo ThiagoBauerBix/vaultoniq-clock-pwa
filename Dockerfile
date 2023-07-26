@@ -10,6 +10,8 @@ COPY . /app
 
 RUN npm run build
 
+RUN apk --no-cache add curl
+
 EXPOSE 3001
 
 CMD [ "npm", "run", "dev" ]
