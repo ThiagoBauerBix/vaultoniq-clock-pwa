@@ -1,6 +1,5 @@
 import {
   WarningCircle ,
-  CaretLeft,
   Play,
   Stop,
   XCircle,
@@ -9,19 +8,14 @@ import { useNavigate } from "react-router-dom";
 import { useStep } from "../../hooks/useStep";
 import { useEffect, useState } from "react";
 import Modal from 'react-modal';
-import WorkSessionApi from "../../services/WorkSessionApi";
 
 export default function Timer() {
   const [ isActive, setIsActive ] = useState(false);
   const [ isPaused, setIsPaused ] = useState(false);
   const navigate = useNavigate();
-  const { setHeaderInfo, accTime, setAccTime, workSessionTime, setWorkSessionTime, timerWarningNotes, setTimerWarningNotes, setStartedAt, setFinishedAt} = useStep();
-  const [ time, setTime ] = useState(workSessionTime); //7473000
-  const [ previousTime, setPreviousTime] = useState(0)
+  const { setHeaderInfo, previousTime, accTime, setAccTime, workSessionTime, setWorkSessionTime, timerWarningNotes, setTimerWarningNotes, setStartedAt, setFinishedAt} = useStep();
+  const [ time, setTime ] = useState(workSessionTime);
   const [ isModalOpen, setIsModalOpen] = useState<boolean>(false)
-
-  const task_id = '000'
-  const worksession_id = '000'
 
   useEffect(() => {
     setHeaderInfo({
@@ -174,7 +168,7 @@ export default function Timer() {
               </div>
             </section>
           </article>
-          <article className="flex flex-col items-center justify-center gap-4 mb-20 mt-40 w-full">
+          <article className="flex flex-col items-center justify-center gap-4 mt-40 w-full">
             <section>
               <span className="text-3xl justify-center">Work session time</span>
             </section>
@@ -216,23 +210,11 @@ export default function Timer() {
               </button>
             </section>
           </article>
-          <article className="w-full flex flex-row mt-32">
-            <button
-              onClick={() => navigate("/scan")}
-              className="w-[35%] btn-primary bg-transparent p-4 flex flex-row items-center gap-2 justify-center text-white"
-            >
-              <CaretLeft
-                className="bg-transparent"
-                color="#fff"
-                size={22}
-                weight="fill"
-              />
-              Back
-            </button>
+          <article className="w-full flex flex-row items-center justify-center absolute inset-x-0 bottom-5">
             <button
               onClick={() => navigate("/photos")}
-              className="w-[60%] btn-primary px-12 flex flex-row items-center gap-2 justify-center text-white"
-            >
+              className="w-[60%] btn-primary px-8 py-4 flex flex-row items-center gap-2 justify-center text-white"
+            > 
               Next
             </button>
           </article>
@@ -305,6 +287,14 @@ export default function Timer() {
             start timer
           </button>
         </section>
+        {workSessionTime !=0 && <article className="w-full flex flex-row items-center justify-center absolute inset-x-0 bottom-5">
+            <button
+              onClick={() => navigate("/photos")}
+              className="w-[60%] btn-primary px-8 py-4 flex flex-row items-center gap-2 justify-center text-white"
+            >
+              Next
+            </button>
+          </article>}
       </article>
     </div>
   );
