@@ -46,6 +46,7 @@ export const StepProvider = ({ children }: any) => {
   const [headerInfo, setHeaderInfo] = useState<HeaderInfo>({} as HeaderInfo);
   const [previews, setPreviews] = useLocalStorage("previews", []);
   const [notes, setNotes] = useLocalStorage("notes", "");
+  const [ previousTime, setPreviousTime ] = useLocalStorage("previousTime", 0);
   const [accTime, setAccTime] = useLocalStorage("accTime", 0);
   const [workSessionTime, setWorkSessionTime] = useLocalStorage("workSessionTime", 0);
   const [ timerWarningNotes, setTimerWarningNotes] = useLocalStorage("timerWarningNotes", '');
@@ -59,6 +60,7 @@ export const StepProvider = ({ children }: any) => {
 
   function clearStates() {
     setWorkSessionTime(0);
+    setPreviousTime(0);
     setAccTime(0);
     setNotes('');
     setPreviews(null);
@@ -105,7 +107,9 @@ export const StepProvider = ({ children }: any) => {
         carYear,
         setCarYear,
         roNumber,
-        setRoNumber
+        setRoNumber,
+        previousTime, 
+        setPreviousTime
 
       }}
     >

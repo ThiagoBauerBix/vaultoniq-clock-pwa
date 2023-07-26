@@ -13,9 +13,8 @@ export default function Timer() {
   const [ isActive, setIsActive ] = useState(false);
   const [ isPaused, setIsPaused ] = useState(false);
   const navigate = useNavigate();
-  const { setHeaderInfo, accTime, setAccTime, workSessionTime, setWorkSessionTime, timerWarningNotes, setTimerWarningNotes, setStartedAt, setFinishedAt} = useStep();
-  const [ time, setTime ] = useState(workSessionTime); //7473000
-  const [ previousTime, setPreviousTime] = useState(0)
+  const { setHeaderInfo, previousTime, accTime, setAccTime, workSessionTime, setWorkSessionTime, timerWarningNotes, setTimerWarningNotes, setStartedAt, setFinishedAt} = useStep();
+  const [ time, setTime ] = useState(workSessionTime);
   const [ isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
   useEffect(() => {
