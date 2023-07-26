@@ -66,7 +66,7 @@ export default function Scan() {
     <div>
       <div>
         <QrReader
-          facingMode="environment"
+          constraints={{facingMode: "environment"}}
           onResult={(result, error) => {
             if (result) {
               // eslint-disable-next-line @typescript-eslint/ban-ts-comment
