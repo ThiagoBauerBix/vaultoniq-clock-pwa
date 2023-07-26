@@ -49,15 +49,28 @@ export const StepProvider = ({ children }: any) => {
   const [accTime, setAccTime] = useLocalStorage("accTime", 0);
   const [workSessionTime, setWorkSessionTime] = useLocalStorage("workSessionTime", 0);
   const [ timerWarningNotes, setTimerWarningNotes] = useLocalStorage("timerWarningNotes", '');
-  const [ startedAt, setStartedAt] = useLocalStorage("startTime", '');
-  const [ finishedAt, setFinishedAt] = useLocalStorage("startTime", '');
-  
+  const [ startedAt, setStartedAt] = useLocalStorage("startedAt", '');
+  const [ finishedAt, setFinishedAt] = useLocalStorage("finishedAt", '');
+  const [ taskId, setTaskId] = useLocalStorage("taskId", '');
+  const [ carName, setCarName] = useLocalStorage("carName", '');
+  const [ carBrand, setCarBrand] = useLocalStorage("carBrand", '');
+  const [ carYear, setCarYear] = useLocalStorage("carYear", '');
+  const [ roNumber, setRoNumber] = useLocalStorage("roNumber", '');
 
   function clearStates() {
     setWorkSessionTime(0);
     setAccTime(0);
-    setNotes("");
+    setNotes('');
     setPreviews(null);
+    setWorkSessionTime(0);
+    setTimerWarningNotes('');
+    setStartedAt(null);
+    setFinishedAt(null);
+    setTaskId(null);
+    setCarName(null);
+    setCarBrand(null);
+    setCarYear(null);
+    setRoNumber(null);
   }
 
   // useEffect(() => {}, []);
@@ -82,7 +95,18 @@ export const StepProvider = ({ children }: any) => {
         startedAt,
         setStartedAt,
         finishedAt,
-        setFinishedAt
+        setFinishedAt,
+        taskId,
+        setTaskId,
+        carName,
+        setCarName,
+        carBrand,
+        setCarBrand,
+        carYear,
+        setCarYear,
+        roNumber,
+        setRoNumber
+
       }}
     >
       {children}

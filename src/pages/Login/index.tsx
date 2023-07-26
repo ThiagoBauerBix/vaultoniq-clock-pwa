@@ -26,7 +26,7 @@ export default function Login() {
       saveToStorage(res.data.access, res.data.refresh);
 
       setIsAuthenticated(true);
-      navigate("/");
+      navigate("/scan");
     } catch (error) {
       alert("invalid credentials");
       console.error(error);
