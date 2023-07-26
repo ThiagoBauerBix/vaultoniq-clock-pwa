@@ -5,11 +5,10 @@ import { CaretLeft } from "@phosphor-icons/react";
 import "keen-slider/keen-slider.min.css";
 import WorkSessionApi from "../../services/WorkSessionApi";
 
-import { FormControlLabel, Switch } from "@mui/material";
 import Previews from "../../components/Previews";
 
 export default function Review() {
-  const { setHeaderInfo, previews, notes, clearStates, workSessionTime, startedAt, finishedAt, timerWarningNotes, taskId, carName, carBrand, carYear, roNumber} = useStep();
+  const { setHeaderInfo, notes, clearStates, workSessionTime, startedAt, finishedAt, timerWarningNotes, taskId, carName, carBrand, carYear, roNumber} = useStep();
   const [submitObject, setSubmitObject ] = useState({})
   const [isTaskFinished, setIsTaskFinished ] = useState(false)
   const navigate = useNavigate();
