@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect } from "react";
+import { ChangeEvent } from "react";
 import { useStep } from "../../hooks/useStep";
 import { getImgPreview } from "../../services/imagePreview";
 
