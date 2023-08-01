@@ -1,19 +1,18 @@
-import { ChangeEvent } from "react";
+import { ChangeEvent, useEffect } from "react";
 import { useStep } from "../../hooks/useStep";
 import { getImgPreview } from "../../services/imagePreview";
 
 export function MediaPicker() {
-  const { previews, setPreviews } = useStep();
+  const { previews, setPreviews, setImagesToSend } = useStep();
 
   function onFileSelected(event: ChangeEvent<HTMLInputElement>) {
     const { files } = event.target;
-
+    
     if (!files) {
       return;
     }
-
+    setImagesToSend(files)
     const previewURLs = getImgPreview(files);
-    console.log(JSON.stringify(files));
     setPreviews(previewURLs);
   }
 

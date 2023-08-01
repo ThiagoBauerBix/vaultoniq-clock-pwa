@@ -28,7 +28,6 @@ export default {
         task_id: string | null,
         previews: any,
         ) {
-            console.log(previews.getAll('images'))
         return api
             .post(`/tasks/${task_id}/media/`, previews, 
                 {

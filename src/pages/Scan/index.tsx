@@ -16,7 +16,6 @@ export default function Scan() {
   }, [setHeaderInfo]);
 
   const convertDateToInteger = (date: string) => {
-    console.log('date:',date)
     if(date === null){
       return 0
     }
@@ -25,16 +24,13 @@ export default function Scan() {
       let seconds: number = (+arr[0]) * 60 * 60 + (+arr[1]) * 60 + (+arr[2]); 
       
       let milisseconds = seconds * 1000
-  
-      // console.log('milisseconds', milisseconds)
-      return milisseconds
-    } catch {
-      console.log('error trying to convert date to integer')
+        return milisseconds
+    } catch (error) {
+      console.log(error)
     }
   }
 
   const fetchData = useCallback(async (url: string) => {
-    console.log("url", url);
 
     const taskData = await fetch(url, {
       method: 'GET',
@@ -45,7 +41,6 @@ export default function Scan() {
       },
     }).then((res) => res.json());
 
-    console.log(taskData.tasks);
     setData(taskData.tasks)
     setCarName(taskData.car.model)
     setCarBrand(taskData.car.brand.name)

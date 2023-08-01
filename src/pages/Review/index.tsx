@@ -8,13 +8,12 @@ import WorkSessionApi from "../../services/WorkSessionApi";
 import Previews from "../../components/Previews";
 
 export default function Review() {
-  const { setHeaderInfo, notes, clearStates, workSessionTime, startedAt, finishedAt, timerWarningNotes, taskId, carName, carBrand, carYear, roNumber} = useStep();
+  const { setHeaderInfo, notes, clearStates, workSessionTime, startedAt, finishedAt, timerWarningNotes, taskId, carName, carBrand, carYear, roNumber, imagesToSend} = useStep();
   const [submitObject, setSubmitObject ] = useState({})
   const [isTaskFinished, setIsTaskFinished ] = useState(false)
   const navigate = useNavigate();
 
-  // let formData = new FormData()
-  // let images: any = []
+  let formData = new FormData()
 
   useEffect(() => {
     setHeaderInfo({
@@ -32,28 +31,7 @@ export default function Review() {
       reason: timerWarningNotes,
       is_task_finished: isTaskFinished,
     })
-  }, [,isTaskFinished]);
-
-  // useEffect(() => {
-  //   console.log('useeffect')
-  //   previews.map((preview: any, index: any) => {
-  //     let e = new File([preview as any], `image${index}`, {lastModified: new Date().getTime(), type: 'image'})
-  //     formData.append('images', preview)
-  //   })
-  // }, []);
-
-  // useEffect(() => {
-  //   console.log('print formdata')
-  //   console.log('formdata', formData.getAll('images'))
-  // }, [formData])
-
-  useEffect(() => {
-    console.log(isTaskFinished)
-  }, [isTaskFinished])
-
-  useEffect(() => {
-    console.log('submitobject', submitObject)
-  }, [submitObject])
+  }, [isTaskFinished]);
 
   const convertIntToDate = (num: number) => {
     let hours = ("0" + Math.floor((num / 3600000) % 60)).slice(-2)
@@ -63,19 +41,13 @@ export default function Review() {
   }
 
   const handleSubmit = () => {
-    // previews.map((preview: any, index: any) => {
-    //   // let e = new File([preview as any], `image${index}`, {lastModified: new Date().getTime(), type: 'image/png'})
-    //   // formData.append('images', e, `image${index}.png`)
-    //   const url = URL.createObjectURL(preview)
-    //   let img = new Image()
-    //   img.onload = () => {
-    //     URL.revokeObjectURL(url)
-    //   }
-    //   img.src = url
-    //   formData.append('images', img, `image${index}.png`)
-    // })
+    for(let i=0; i<=imagesToSend.length; i++) {
+      if(imagesToSend[i] != undefined) {
+        formData.append('images', imagesToSend[i])
+      }
+    }
     WorkSessionApi.postWorkSession(taskId, submitObject)
-      //.then(() => WorkSessionApi.postPreviews(taskId, images))
+      .then(() => WorkSessionApi.postPreviews(taskId, formData))
   }
 
   return (
@@ -107,16 +79,6 @@ export default function Review() {
             <Previews/>
           </div>
         </section>
-        {/* <button
-          onClick={() => {
-            console.log(formData.getAll('images'))
-          }}
-          className="btn-primary px-14 py-4 mr-4 flex flex-row items-center gap-2 justify-center text-white"
-          type="submit"
-        >
-          formData
-        </button> */}
-
         <section>
           <span className="text-2xl font-semibold">Notes</span>
           <div className="bg-black-primary p-2 rounded-lg border border-1 border-gray-500 my-2">

@@ -18,10 +18,6 @@ export default function Previews() {
         },
       });
 
-      useEffect(() => {
-        console.log(resendPreview)
-      }, [resendPreview])
-
       const isPreviewAvailable = async () => {
         if(previews?.length > 0) {
             try {

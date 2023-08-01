@@ -45,6 +45,7 @@ export const StepProvider = ({ children }: any) => {
 
   const [headerInfo, setHeaderInfo] = useState<HeaderInfo>({} as HeaderInfo);
   const [previews, setPreviews] = useLocalStorage("previews", []);
+  const [imagesToSend, setImagesToSend] = useLocalStorage("imagesToSend", []);
   const [notes, setNotes] = useLocalStorage("notes", "");
   const [ previousTime, setPreviousTime ] = useLocalStorage("previousTime", 0);
   const [accTime, setAccTime] = useLocalStorage("accTime", 0);
@@ -73,9 +74,8 @@ export const StepProvider = ({ children }: any) => {
     setCarBrand(null);
     setCarYear(null);
     setRoNumber(null);
+    setImagesToSend(null);
   }
-
-  // useEffect(() => {}, []);
 
   return (
     <StepContext.Provider
@@ -109,7 +109,9 @@ export const StepProvider = ({ children }: any) => {
         roNumber,
         setRoNumber,
         previousTime, 
-        setPreviousTime
+        setPreviousTime,
+        imagesToSend, 
+        setImagesToSend
 
       }}
     >
