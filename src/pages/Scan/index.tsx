@@ -7,6 +7,7 @@ export default function Scan() {
   const { setHeaderInfo, setPreviousTime, setTaskId, setCarName, setCarBrand, setCarYear, setRoNumber, carBrand, carName, roNumber } = useStep();
   const navigate = useNavigate();
   const [data, setData] = useState<any>();
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     setHeaderInfo({
@@ -31,30 +32,33 @@ export default function Scan() {
   }
 
   const fetchData = useCallback(async (url: string) => {
+    if(loading == false) {
+      setLoading(true)
+      const taskData = await fetch(url, {
+        method: 'GET',
+        mode: 'cors',
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': 'Bearer ' +`${localStorage.getItem('accessToken')}`
+        },
+      }).then((res) => res.json());
 
-    const taskData = await fetch(url, {
-      method: 'GET',
-      mode: 'cors',
-      headers: {
-        "Content-Type": "application/json",
-        'Authorization': 'Bearer ' +`${localStorage.getItem('accessToken')}`
-      },
-    }).then((res) => res.json());
+      setData(taskData.tasks)
+      setCarName(taskData.car.model)
+      setCarBrand(taskData.car.brand.name)
+      setCarYear(taskData.car.year)
+      setRoNumber(taskData['ro_number'])
+      let taskInProgress = taskData.tasks.find((task: any) => task.progress_status === 'In Progress')
+      if(taskInProgress != undefined) {
+        setTaskId(taskInProgress.task_id)
+        setPreviousTime(convertDateToInteger(taskInProgress.time_spent))
+      } else {
+        let taskPending = taskData.tasks.find((task: any) => task.progress_status === 'Pending')
+        taskPending != undefined ? setTaskId(taskPending.task_id) && setPreviousTime(convertDateToInteger(taskPending.time_spent)) : alert('all tasks finished'), setData([])
+      }
 
-    setData(taskData.tasks)
-    setCarName(taskData.car.model)
-    setCarBrand(taskData.car.brand.name)
-    setCarYear(taskData.car.year)
-    setRoNumber(taskData['ro_number'])
-    let taskInProgress = taskData.tasks.find((task: any) => task.progress_status === 'In Progress')
-    if(taskInProgress != undefined) {
-      setTaskId(taskInProgress.task_id)
-      setPreviousTime(convertDateToInteger(taskInProgress.time_spent))
-    } else {
-      let taskPending = taskData.tasks.find((task: any) => task.progress_status === 'Pending')
-      taskPending != undefined ? setTaskId(taskPending.task_id) && setPreviousTime(convertDateToInteger(taskPending.time_spent)) : alert('all tasks finished')
+      setLoading(false)
     }
-
   }, []);
 
   return (
@@ -117,7 +121,7 @@ export default function Scan() {
         </div>
         )}
       <div className="flex flex-row items-center mt-10">
-        {data && (
+        {data?.length > 0 && (
           <button
             className="w-full btn-primary mx-4 py-4 mr-4 flex flex-row items-center gap-2 justify-center text-white"
             onClick={() => navigate("/timer")}
