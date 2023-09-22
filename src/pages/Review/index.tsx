@@ -40,8 +40,9 @@ export default function Review() {
     return hours + ':' + minutes + ':' + seconds
   }
 
-  const handleSubmit = () => {
-    for(let i=0; i<=imagesToSend.length; i++) {
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    for(let i=0; i<=imagesToSend?.length; i++) {
       if(imagesToSend[i] != undefined) {
         formData.append('images', imagesToSend[i])
       }
@@ -117,8 +118,8 @@ export default function Review() {
           Back
         </button>
         <button
-          onClick={() => {
-            handleSubmit();
+          onClick={(e) => {
+            handleSubmit(e);
             navigate("/scan");
             clearStates();
           }}
