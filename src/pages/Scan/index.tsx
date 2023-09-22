@@ -52,7 +52,7 @@ export default function Scan() {
       setPreviousTime(convertDateToInteger(taskInProgress.time_spent))
     } else {
       let taskPending = taskData.tasks.find((task: any) => task.progress_status === 'Pending')
-      taskPending != undefined ? setTaskId(taskPending.task_id) && setPreviousTime(convertDateToInteger(taskPending.time_spent)) : alert('all tasks finished')
+      taskPending != undefined ? setTaskId(taskPending.task_id) && setPreviousTime(convertDateToInteger(taskPending.time_spent)) : alert('all tasks finished'), setData([])
     }
 
   }, []);
@@ -117,7 +117,7 @@ export default function Scan() {
         </div>
         )}
       <div className="flex flex-row items-center mt-10">
-        {data && (
+        {data?.length > 0 && (
           <button
             className="w-full btn-primary mx-4 py-4 mr-4 flex flex-row items-center gap-2 justify-center text-white"
             onClick={() => navigate("/timer")}
