@@ -54,7 +54,7 @@ export default function Scan() {
         setPreviousTime(convertDateToInteger(taskInProgress.time_spent))
       } else {
         let taskPending = taskData.tasks.find((task: any) => task.progress_status === 'Pending')
-        taskPending != undefined ? setTaskId(taskPending.task_id) && setPreviousTime(convertDateToInteger(taskPending.time_spent)) : alert('all tasks finished'), setData([])
+        taskPending != undefined ? setTaskId(taskPending.task_id) && setPreviousTime(convertDateToInteger(taskPending.time_spent)) : alert('all tasks finished')
       }
 
       setLoading(false)
