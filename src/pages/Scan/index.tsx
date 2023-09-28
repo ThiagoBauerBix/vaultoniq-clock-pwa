@@ -7,6 +7,7 @@ export default function Scan() {
   const { setHeaderInfo, setPreviousTime, setTaskId, setCarName, setCarBrand, setCarYear, setRoNumber, carBrand, carName, roNumber } = useStep();
   const navigate = useNavigate();
   const [data, setData] = useState<any>();
+  const [alertBox, setAlertBox] = useState<boolean>();
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
@@ -52,9 +53,14 @@ export default function Scan() {
       if(taskInProgress != undefined) {
         setTaskId(taskInProgress.task_id)
         setPreviousTime(convertDateToInteger(taskInProgress.time_spent))
+        setAlertBox(false)
       } else {
         let taskPending = taskData.tasks.find((task: any) => task.progress_status === 'Pending')
-        taskPending != undefined ? setTaskId(taskPending.task_id) && setPreviousTime(convertDateToInteger(taskPending.time_spent)) : alert('all tasks finished')
+        if(taskPending != undefined){
+          setTaskId(taskPending.task_id);
+          setPreviousTime(convertDateToInteger(taskPending.time_spent))
+          setAlertBox(false)
+        } else setAlertBox(true)
       }
 
       setLoading(false)
@@ -121,7 +127,7 @@ export default function Scan() {
         </div>
         )}
       <div className="flex flex-row items-center mt-10">
-        {data?.length > 0 && (
+        {data?.length > 0 && !alertBox && (
           <button
             className="w-full btn-primary mx-4 py-4 mr-4 flex flex-row items-center gap-2 justify-center text-white"
             onClick={() => navigate("/timer")}
@@ -129,6 +135,16 @@ export default function Scan() {
             Next
           </button>
         )}
+        {alertBox && 
+                <div role="alert" className="items-center top-20 fixed w-full p-2">
+                    <div className="bg-green-600 text-white font-bold rounded-t px-4 py-2 text-sm">
+                        Warning
+                    </div>
+                    <div className="border border-t-0 border-green-400 rounded-b bg-green-100 px-4 py-3 text-green-700 text-sm">
+                        All tasks finished
+                    </div>
+                </div>
+            }
       </div>
     </div>
   );
