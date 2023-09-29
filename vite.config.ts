@@ -14,6 +14,9 @@ export default ({ mode }) => {
     server: {
       host: true,
       port: 3000,
+      hmr: {
+        overlay: false
+      }
     },
     plugins: [react()],
   })
