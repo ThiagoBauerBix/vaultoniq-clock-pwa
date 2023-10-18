@@ -42,6 +42,9 @@ export default function Review() {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
+    let notesFinal = (document.getElementById('notes-textarea')as HTMLInputElement).value
+    console.log(notesFinal)
+    
     for(let i=0; i<=imagesToSend?.length; i++) {
       if(imagesToSend[i] != undefined) {
         formData.append('images', imagesToSend[i])
@@ -56,7 +59,7 @@ export default function Review() {
       <div className="p-6 flex flex-col gap-8">
         <section>
           <span className="text-2xl font-semibold">Vehicle</span>
-          <div className="bg-black-primary p-4 rounded-lg border border-1 border-gray-500 my-2">
+          <div className="p-4 rounded-lg border border-1 border-gray-500 my-2">
             <span className="text-xl bg-transparent">
               {carBrand} {carName}
             </span>
@@ -69,7 +72,7 @@ export default function Review() {
 
         <section>
           <span className="text-2xl font-semibold">Work Session Time</span>
-          <div className="bg-black-primary p-4 rounded-lg border border-1 border-gray-500 my-2">
+          <div className="p-4 rounded-lg border border-1 border-gray-500 my-2">
             <p className="text-2xl bg-transparent font-extralight">{convertIntToDate(workSessionTime)}</p>
           </div>
         </section>
@@ -82,8 +85,8 @@ export default function Review() {
         </section>
         <section>
           <span className="text-2xl font-semibold">Notes</span>
-          <div className="bg-black-primary p-2 rounded-lg border border-1 border-gray-500 my-2">
-            <div className="text-lg bg-transparent">{notes}</div>
+          <div className=" p-2 rounded-lg border border-1 border-gray-500 my-2">
+            <textarea id="notes-textarea" className="text-lg bg-transparent w-full" defaultValue={notes} onChange={(e) => setSubmitObject({...submitObject, notes: e.target.value})}></textarea>
           </div>
         </section>
         <section>
