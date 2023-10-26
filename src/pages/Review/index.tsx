@@ -13,6 +13,9 @@ export default function Review() {
   const [isTaskFinished, setIsTaskFinished ] = useState(false)
   const navigate = useNavigate();
 
+  const [ errorBox, setErrorBox ] = useState(false) 
+  const [ successBox, setSuccessBox ] = useState(false)
+
   let formData = new FormData()
 
   useEffect(() => {
@@ -42,6 +45,7 @@ export default function Review() {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
+    setErrorBox(false)
     let notesFinal = (document.getElementById('notes-textarea')as HTMLInputElement).value
     console.log(notesFinal)
     
@@ -52,11 +56,35 @@ export default function Review() {
     }
     WorkSessionApi.postWorkSession(taskId, submitObject)
       .then(() => WorkSessionApi.postPreviews(taskId, formData))
+      .then(() => setSuccessBox(true))
+      .then(() => clearStates())
+      .then(() => setTimeout(() => navigate("/scan"), 5000) )
+      .catch(() => setErrorBox(true))
   }
 
   return (
     <form id="form">
       <div className="p-6 flex flex-col gap-8">
+        {successBox && 
+          <div role="alert">
+            <div className="bg-green-500 text-white font-bold rounded-t px-4 py-2 text-sm">
+              Done
+            </div>
+            <div className="border border-t-0 border-green-400 rounded-b bg-green-100 px-4 py-3 text-green-700 text-sm">
+                <p className="bg-green-100 text-green-700 ">Updated successfully!</p>
+            </div>
+          </div>
+          }
+          {errorBox && 
+            <div role="alert">
+              <div className="bg-red-500 text-white font-bold rounded-t px-4 py-2 text-sm">
+                Error
+              </div>
+              <div className="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700 text-sm">
+                <p className="bg-red-100 text-red-700 ">Error while submitting work session</p>
+              </div>
+            </div>
+          } 
         <section>
           <span className="text-2xl font-semibold">Vehicle</span>
           <div className="p-4 rounded-lg border border-1 border-gray-500 my-2">
@@ -123,8 +151,6 @@ export default function Review() {
         <button
           onClick={(e) => {
             handleSubmit(e);
-            navigate("/scan");
-            clearStates();
           }}
           className="btn-primary px-14 py-4 mr-4 flex flex-row items-center gap-2 justify-center text-white"
           type="submit"
