@@ -1,0 +1,48 @@
+name: Sync with AWS CodeCommit
+
+on:
+  push:
+    branches:
+      - develop
+      - staging
+      - main
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Test the Docker builds
+        run: |
+          npm install && npm run build
+
+      - name: Install AWS CLI and git-remote-codecommit
+        run: |
+          pip3 install git-remote-codecommit --upgrade --user
+          echo "export PATH=\$HOME/.local/bin:\$PATH" >> $GITHUB_ENV
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Configure AWS CLI
+        run: aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }} && aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}  && aws configure set default.region us-east-1
+
+      - name: Set up SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -t rsa git-codecommit.us-east-1.amazonaws.com >> ~/.ssh/known_hosts
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.CODECOMMIT_SSH_KEY }}
+
+      - name: Push to AWS CodeCommit
+        run: |
+          BRANCH_NAME=$(echo $GITHUB_REF | sed 's/refs\/heads\///')
+          git remote add codecommit ssh://APKAZ6RY5GBWORVIY5NY@git-codecommit.us-east-1.amazonaws.com/v1/repos/vaultoniq_front_clock_app
+          git push --force -u codecommit $BRANCH_NAME
