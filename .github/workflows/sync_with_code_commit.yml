@@ -3,7 +3,9 @@ name: Sync with AWS CodeCommit
 on:
   push:
     branches:
-      - feature/ec2_migration
+      - develop
+      - staging
+      - main
 
 jobs:
   sync:
