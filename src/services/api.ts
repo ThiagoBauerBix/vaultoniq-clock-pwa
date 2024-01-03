@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export let baseURL = 'http://localhost:8000/api/v1'
+export let baseURL = 'https://api-staging.vaultoniq.com/api/v1'
 
 if (import.meta.env.VITE_APP_API_URL) {
   baseURL = import.meta.env.VITE_APP_API_URL
