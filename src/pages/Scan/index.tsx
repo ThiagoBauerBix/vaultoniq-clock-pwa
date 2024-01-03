@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { QrReader } from "react-qr-reader";
 
 export default function Scan() {
-  const { setHeaderInfo, setPreviousTime, setTaskId, setCarName, setCarBrand, setCarYear, setRoNumber, carBrand, carName, roNumber } = useStep();
+  const { setHeaderInfo, setPreviousTime, setTaskId, setCarName, setCarBrand, setCarYear, setRoNumber, carBrand, carName, roNumber, clearStates } = useStep();
   const navigate = useNavigate();
   const [data, setData] = useState<any>();
   const [alertBox, setAlertBox] = useState<boolean>();
@@ -74,6 +74,7 @@ export default function Scan() {
           constraints={{facingMode: "environment"}}
           onResult={(result, error) => {
             if (result) {
+              clearStates();
               // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-ignore
               fetchData(result?.text);
@@ -85,8 +86,10 @@ export default function Scan() {
           }}
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
-          style={{ width: "100%" }}
+          style={{ width: "100%"}}
+          className={"relative m-auto left-0 right-0 top-0"}
         />
+        <div className={'border-dashed border-red-500 border-4 absolute left-1/2 transform -translate-x-1/2 bg-transparent top-[20%] min-[370px]:top-[25%] min-[390px]:top-[18%] min-[540px]:top-[30%]'} style={{width: '80%', height: '30%' }}></div>
       </div>
       {data && (
         <div>
@@ -100,7 +103,7 @@ export default function Scan() {
             <tbody>
               <tr>
               <td className="text-center" key={carBrand}>{carBrand} {carName}</td>
-              <td className="text-center" key={roNumber}>{roNumber}</td>
+              <td className="text-center" key={`${Math.random()}${roNumber}`}>{roNumber}</td>
               </tr>
             </tbody>
           </table>

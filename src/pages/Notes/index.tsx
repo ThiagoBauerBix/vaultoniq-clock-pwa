@@ -33,7 +33,7 @@ export default function Notes() {
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="flex flex-col items-center justify-between mx-2 py-8">
         <textarea
-          className="border border-1 border-gray-400 rounded-xl py-6 px-4"
+          className="border border-1 border-gray-400 bg-gray-primary rounded-xl py-6 px-4"
           {...register("notes")}
           cols={35}
           rows={23}
