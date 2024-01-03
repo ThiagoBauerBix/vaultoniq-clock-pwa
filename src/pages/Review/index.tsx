@@ -95,7 +95,7 @@ export default function Review() {
           {loadingBox && 
             <div role="alert">
               <div className="bg-yellow-500 text-white font-bold rounded-t px-4 py-2 text-sm">
-                Error
+                Almost there
               </div>
               <div className="border border-t-0 border-yellow-400 rounded-b bg-yellow-100 px-4 py-3 text-yellow-700 text-sm">
                 <p className="bg-yellow-100 text-yellow-700 ">Please wait while submitting work session</p>
