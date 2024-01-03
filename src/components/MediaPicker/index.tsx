@@ -17,12 +17,13 @@ export function MediaPicker() {
       objSize = files?.item(i)?.size
       if(objSize >= 5000000) {
         alert('The size of a single image must be less than 5MB')
+        return
       } else {
         fileSizeSum += objSize
       }
     }
 
-    if(fileSizeSum > 100000000) {
+    if(fileSizeSum > 100000000 ) {
       alert('The sum of all images sizes must be less than 100MB')
     } else {
       setImagesToSend(files)
