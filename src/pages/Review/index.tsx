@@ -6,6 +6,7 @@ import "keen-slider/keen-slider.min.css";
 import WorkSessionApi from "../../services/WorkSessionApi";
 
 import Previews from "../../components/Previews";
+import { Modal } from "flowbite-react";
 
 export default function Review() {
   const { setHeaderInfo, notes, clearStates, workSessionTime, startedAt, finishedAt, timerWarningNotes, taskId, carName, carBrand, carYear, roNumber, imagesToSend} = useStep();
@@ -15,6 +16,9 @@ export default function Review() {
 
   const [ errorBox, setErrorBox ] = useState(false) 
   const [ successBox, setSuccessBox ] = useState(false)
+  const [ loadingBox, setLoadingBox ] = useState(false)
+
+  const [ isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
   let formData = new FormData()
 
@@ -46,6 +50,7 @@ export default function Review() {
   const handleSubmit = (e: any) => {
     e.preventDefault();
     setErrorBox(false)
+    setLoadingBox(true)
     let notesFinal = (document.getElementById('notes-textarea')as HTMLInputElement).value
     console.log(notesFinal)
     
@@ -56,6 +61,7 @@ export default function Review() {
     }
     WorkSessionApi.postWorkSession(taskId, submitObject)
       .then(() => WorkSessionApi.postPreviews(taskId, formData))
+      .then(() => setLoadingBox(false))
       .then(() => setSuccessBox(true))
       .then(() => clearStates())
       .then(() => setTimeout(() => navigate("/scan"), 5000) )
@@ -63,6 +69,7 @@ export default function Review() {
   }
 
   return (
+    <>
     <form id="form">
       <div className="p-6 flex flex-col gap-8">
         {successBox && 
@@ -82,6 +89,16 @@ export default function Review() {
               </div>
               <div className="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700 text-sm">
                 <p className="bg-red-100 text-red-700 ">Error while submitting work session</p>
+              </div>
+            </div>
+          } 
+          {loadingBox && 
+            <div role="alert">
+              <div className="bg-yellow-500 text-white font-bold rounded-t px-4 py-2 text-sm">
+                Almost there
+              </div>
+              <div className="border border-t-0 border-yellow-400 rounded-b bg-yellow-100 px-4 py-3 text-yellow-700 text-sm">
+                <p className="bg-yellow-100 text-yellow-700 ">Please wait while submitting work session</p>
               </div>
             </div>
           } 
@@ -114,7 +131,7 @@ export default function Review() {
         <section>
           <span className="text-2xl font-semibold">Notes</span>
           <div className=" p-2 rounded-lg border border-1 border-gray-500 my-2">
-            <textarea id="notes-textarea" className="text-lg bg-transparent w-full" defaultValue={notes} onChange={(e) => setSubmitObject({...submitObject, notes: e.target.value})}></textarea>
+            <textarea id="notes-textarea" className="text-lg bg-transparent w-full border-0" defaultValue={notes} onChange={(e) => setSubmitObject({...submitObject, notes: e.target.value})}></textarea>
           </div>
         </section>
         <section>
@@ -150,7 +167,8 @@ export default function Review() {
         </button>
         <button
           onClick={(e) => {
-            handleSubmit(e);
+            e.preventDefault()
+            setIsModalOpen(true);
           }}
           className="btn-primary px-14 py-4 mr-4 flex flex-row items-center gap-2 justify-center text-white"
           type="submit"
@@ -159,5 +177,33 @@ export default function Review() {
         </button>
       </div>
     </form>
+    <Modal
+      show={isModalOpen}
+      size="2xl"
+      popup={true}
+      onClose={() => setIsModalOpen(false)}
+      >
+      <Modal.Body className="bg-gray-primary border-t-[1px] border-gray-500">
+        <div className="space-y-4 p-2 text-white" >
+          <div className="mt-2">  
+            After submitting you can't redo or undo this job.
+          </div>
+          <div className="flex flex-row align-center justify-center gap-2">
+            <button className="btn-primary mt-4 py-3 px-8 text-white" 
+              onClick={() => setIsModalOpen(false)}>Cancel
+            </button>
+            <button className="btn-primary bg-red-500 mt-4 py-3 px-8 text-white" 
+              onClick={(e) => {
+                setIsModalOpen(false)
+                handleSubmit(e)
+              }}
+            >
+              Continue
+            </button>
+          </div>
+        </div>
+      </Modal.Body>
+    </Modal>
+    </>
   );
 }
