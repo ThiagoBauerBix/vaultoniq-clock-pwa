@@ -13,7 +13,9 @@ export default function Timer() {
   const [ isActive, setIsActive ] = useState(false);
   const [ isPaused, setIsPaused ] = useState(false);
   const navigate = useNavigate();
-  const { setHeaderInfo, previousTime, accTime, setAccTime, workSessionTime, setWorkSessionTime, timerWarningNotes, setTimerWarningNotes, setStartedAt, setFinishedAt} = useStep();
+  const { setHeaderInfo, previousTime, accTime, setAccTime, workSessionTime, 
+    setWorkSessionTime, timerWarningNotes, setTimerWarningNotes, setStartedAt, setFinishedAt,
+    startTimerTimestamp, setStartTimerTimestamp, accSessionTime, setAccSessionTime} = useStep();
   const [ time, setTime ] = useState(workSessionTime);
   const [ isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
@@ -34,10 +36,13 @@ export default function Timer() {
 
   useEffect(() => {
     let interval: any = null;
-  
     if (isActive && isPaused === false) {
       interval = setInterval(() => {
-        setTime((time: number) => time + 10);
+        const timeNow:any = new Date()
+        console.log('starttimetimestamp', startTimerTimestamp, timeNow)
+        const rightTime = timeNow - startTimerTimestamp
+        console.log('rightTime', rightTime)
+        setTime(accSessionTime + rightTime);
       }, 10);
     } else {
       clearInterval(interval);
@@ -73,12 +78,14 @@ export default function Timer() {
   }
 
   const handleStart = () => {
+    setStartTimerTimestamp(new Date())
     if(time === 0) setStartedAt(getDate())
     setIsActive(true);
     setIsPaused(false);
   };
 
   const handleStop = () => {
+    setAccSessionTime(time)
     setFinishedAt(getDate())
     setIsActive(false);
     setIsPaused(true);
