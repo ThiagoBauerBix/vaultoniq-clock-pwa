@@ -23,8 +23,9 @@ export function MediaPicker() {
       }
     }
 
-    if(fileSizeSum > 100000000 ) {
+    if(fileSizeSum > 100000000) {
       alert('The sum of all images sizes must be less than 100MB')
+      return
     } else {
       setImagesToSend(files)
       const previewURLs = getImgPreview(files);

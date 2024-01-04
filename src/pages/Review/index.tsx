@@ -65,7 +65,11 @@ export default function Review() {
       .then(() => setSuccessBox(true))
       .then(() => clearStates())
       .then(() => setTimeout(() => navigate("/scan"), 5000) )
-      .catch(() => setErrorBox(true))
+      .catch(() => {
+        setErrorBox(true)
+        setLoadingBox(false)
+      })
+        
   }
 
   return (
