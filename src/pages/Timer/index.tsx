@@ -1,5 +1,5 @@
 import {
-  WarningCircle ,
+  WarningCircle,
   Play,
   Stop,
   XCircle,
@@ -123,7 +123,7 @@ export default function Timer() {
               </section>
               <section>
               <textarea
-                className="border border-1 border-gray-400 rounded-xl py-6 px-4"
+                className="border border-1 border-gray-400 bg-gray-primary rounded-xl py-6 px-4"
                 cols={35}
                 rows={8}
                 value={timerWarningNotes}
