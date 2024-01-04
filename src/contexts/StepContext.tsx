@@ -59,6 +59,9 @@ export const StepProvider = ({ children }: any) => {
   const [ carYear, setCarYear] = useLocalStorage("carYear", '');
   const [ roNumber, setRoNumber] = useLocalStorage("roNumber", '');
 
+  const [ startTimerTimestamp, setStartTimerTimestamp ] = useLocalStorage("startTimerTimestamp", '');
+  const [accSessionTime, setAccSessionTime] = useLocalStorage("accSessionTime", 0);
+
   function clearStates() {
     setWorkSessionTime(0);
     setPreviousTime(0);
@@ -75,6 +78,8 @@ export const StepProvider = ({ children }: any) => {
     setCarYear(null);
     setRoNumber(null);
     setImagesToSend(null);
+    setStartTimerTimestamp(null)
+    setAccSessionTime(null)
   }
 
   return (
@@ -111,8 +116,11 @@ export const StepProvider = ({ children }: any) => {
         previousTime, 
         setPreviousTime,
         imagesToSend, 
-        setImagesToSend
-
+        setImagesToSend,
+        startTimerTimestamp, 
+        setStartTimerTimestamp,
+        accSessionTime, 
+        setAccSessionTime,
       }}
     >
       {children}
