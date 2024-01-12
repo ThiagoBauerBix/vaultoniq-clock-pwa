@@ -181,11 +181,6 @@ export default function Scan() {
           </div>
         }
       </div>
-      <button className="btn-primary" onClick={()=> {
-        localStorage.setItem('accessToken','anythingpf')
-      }}>
-        eu
-      </button>
     </div>
   );
 }
