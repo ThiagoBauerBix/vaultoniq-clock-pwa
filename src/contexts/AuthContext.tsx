@@ -53,9 +53,14 @@ export const AuthProvider = ({ children }: any) => {
   };
 
   useEffect(() => {
-    api.defaults.headers.common.Authorization = `Bearer ${
+    //@ts-ignore
+    if(!accessToken && localStorage.getItem("accessToken")) setAccessToken(localStorage.getItem("accessToken")) 
+    if(accessToken && !localStorage.getItem("accessToken")) localStorage.setItem("accessToken", accessToken); 
+    if(accessToken || localStorage.getItem("accessToken")){
+      api.defaults.headers.common.Authorization = `Bearer ${
       accessToken || localStorage.getItem("accessToken")
-    }`;
+      }`;
+    }
   }, [accessToken]);
 
   return (
@@ -64,7 +69,6 @@ export const AuthProvider = ({ children }: any) => {
         logout,
         isAuthenticated,
         setIsAuthenticated,
-
         loggedUser,
         accessToken,
         refreshToken,

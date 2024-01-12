@@ -10,10 +10,8 @@ export default function PageTemplate() {
 
   useEffect(() => {
     const location = (window.location.href.split('/'))
-    console.log(location.slice(-1)[0])
     if(location.slice(-1)[0] == '') {
       if(accessToken || localStorage.getItem("accessToken")) {
-        console.log('there is')
         api.defaults.headers.common.Authorization = `Bearer ${
           accessToken || localStorage.getItem("accessToken")
         }`;
