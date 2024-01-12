@@ -12,7 +12,7 @@ export default function Scan() {
   const [alertBox, setAlertBox] = useState<boolean>();
   const [loading, setLoading] = useState<boolean>(false);
 
-  const {refreshToken, setAccessToken, accessToken, setRefreshToken} = useAuth();
+  const {refreshToken, setAccessToken, setRefreshToken} = useAuth();
 
   const refresh_token = useCallback(async () => {
     if(loading == false) {
@@ -181,7 +181,7 @@ export default function Scan() {
           </div>
         }
       </div>
-      <button className="btn-primary" onClick={(e)=> {
+      <button className="btn-primary" onClick={()=> {
         localStorage.setItem('accessToken','anythingpf')
       }}>
         eu
