@@ -52,7 +52,6 @@ export default function Review() {
     setErrorBox(false)
     setLoadingBox(true)
     let notesFinal = (document.getElementById('notes-textarea')as HTMLInputElement).value
-    console.log(notesFinal)
     
     for(let i=0; i<=imagesToSend?.length; i++) {
       if(imagesToSend[i] != undefined) {

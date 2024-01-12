@@ -39,9 +39,7 @@ export default function Timer() {
     if (isActive && isPaused === false) {
       interval = setInterval(() => {
         const timeNow:any = new Date()
-        console.log('starttimetimestamp', startTimerTimestamp, timeNow)
         const rightTime = timeNow - startTimerTimestamp
-        console.log('rightTime', rightTime)
         setTime(accSessionTime + rightTime);
       }, 10);
     } else {
