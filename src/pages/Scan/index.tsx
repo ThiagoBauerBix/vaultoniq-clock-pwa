@@ -2,6 +2,8 @@ import { useCallback, useEffect, useState } from "react";
 import { useStep } from "../../hooks/useStep";
 import { useNavigate } from "react-router-dom";
 import { QrReader } from "react-qr-reader";
+import api from "../../services/api";
+import { useAuth } from "../../hooks/useAuth";
 
 export default function Scan() {
   const { setHeaderInfo, setPreviousTime, setTaskId, setCarName, setCarBrand, setCarYear, setRoNumber, carBrand, carName, roNumber, clearStates } = useStep();
@@ -9,6 +11,29 @@ export default function Scan() {
   const [data, setData] = useState<any>();
   const [alertBox, setAlertBox] = useState<boolean>();
   const [loading, setLoading] = useState<boolean>(false);
+
+  const {refreshToken, setAccessToken, accessToken, setRefreshToken} = useAuth();
+
+  const refresh_token = useCallback(async () => {
+    if(loading == false) {
+      setLoading(true)
+      try {
+        const response = await api.post("/auth/token/refresh/", {
+          refresh: refreshToken || localStorage.getItem("refreshToken"),
+        });
+        setAccessToken(response.data.access);
+        localStorage.setItem("accessToken", response.data.access);
+        setRefreshToken(response.data.refresh);
+        localStorage.setItem("refreshToken", response.data.refresh);
+        api.defaults.headers.common.Authorization = `Bearer ${response.data.access}`;
+        navigate('/scan')
+      } catch (error) {
+        console.error(error);
+        navigate('/login');
+      }
+      setLoading(false)
+    }
+  }, [refreshToken, setAccessToken]);
 
   useEffect(() => {
     setHeaderInfo({
@@ -35,35 +60,43 @@ export default function Scan() {
   const fetchData = useCallback(async (url: string) => {
     if(loading == false) {
       setLoading(true)
-      const taskData = await fetch(url, {
-        method: 'GET',
-        mode: 'cors',
-        headers: {
-          "Content-Type": "application/json",
-          'Authorization': 'Bearer ' +`${localStorage.getItem('accessToken')}`
-        },
-      }).then((res) => res.json());
+      try {
+        const taskData = await fetch(url, {
+          method: 'GET',
+          mode: 'cors',
+          headers: {
+            "Content-Type": "application/json",
+            'Authorization': 'Bearer ' +`${localStorage.getItem('accessToken')}`
+          },
+        }).then((res) => res.json())
 
-      setData(taskData.tasks)
-      setCarName(taskData.car.model)
-      setCarBrand(taskData.car.brand.name)
-      setCarYear(taskData.car.year)
-      setRoNumber(taskData['ro_number'])
-      let taskInProgress = taskData.tasks.find((task: any) => task.progress_status === 'In Progress')
-      if(taskInProgress != undefined) {
-        setTaskId(taskInProgress.task_id)
-        setPreviousTime(convertDateToInteger(taskInProgress.time_spent))
-        setAlertBox(false)
-      } else {
-        let taskPending = taskData.tasks.find((task: any) => task.progress_status === 'Pending')
-        if(taskPending != undefined){
-          setTaskId(taskPending.task_id);
-          setPreviousTime(convertDateToInteger(taskPending.time_spent))
+        if(taskData.code && taskData.code == 'token_not_valid') {
+          refresh_token().then(() => setLoading(false)).then(() => fetchData(url));
+          return;
+        }
+
+        setData(taskData.tasks)
+        setCarName(taskData.car.model)
+        setCarBrand(taskData.car.brand.name)
+        setCarYear(taskData.car.year)
+        setRoNumber(taskData['ro_number'])
+        let taskInProgress = taskData.tasks.find((task: any) => task.progress_status === 'In Progress')
+        if(taskInProgress != undefined) {
+          setTaskId(taskInProgress.task_id)
+          setPreviousTime(convertDateToInteger(taskInProgress.time_spent))
           setAlertBox(false)
-        } else setAlertBox(true)
+        } else {
+          let taskPending = taskData.tasks.find((task: any) => task.progress_status === 'Pending')
+          if(taskPending != undefined){
+            setTaskId(taskPending.task_id);
+            setPreviousTime(convertDateToInteger(taskPending.time_spent))
+            setAlertBox(false)
+          } else setAlertBox(true)
+        }
+        setLoading(false)
+      } catch (error) {
+        console.log('error', error)
       }
-
-      setLoading(false)
     }
   }, []);
 
@@ -79,7 +112,6 @@ export default function Scan() {
               // @ts-ignore
               fetchData(result?.text);
             }
-
             if (error) {
               // console.info(error);
             }
@@ -139,16 +171,21 @@ export default function Scan() {
           </button>
         )}
         {alertBox && 
-                <div role="alert" className="items-center top-20 fixed w-full p-2">
-                    <div className="bg-green-600 text-white font-bold rounded-t px-4 py-2 text-sm">
-                        Warning
-                    </div>
-                    <div className="border border-t-0 border-green-400 rounded-b bg-green-100 px-4 py-3 text-green-700 text-sm">
-                        All tasks finished
-                    </div>
-                </div>
-            }
+          <div role="alert" className="items-center top-20 fixed w-full p-2">
+              <div className="bg-green-600 text-white font-bold rounded-t px-4 py-2 text-sm">
+                  Warning
+              </div>
+              <div className="border border-t-0 border-green-400 rounded-b bg-green-100 px-4 py-3 text-green-700 text-sm">
+                All tasks finished. None assigned.
+              </div>
+          </div>
+        }
       </div>
+      <button className="btn-primary" onClick={(e)=> {
+        localStorage.setItem('accessToken','anythingpf')
+      }}>
+        eu
+      </button>
     </div>
   );
 }
