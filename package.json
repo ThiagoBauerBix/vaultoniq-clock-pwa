@@ -15,6 +15,7 @@
     "@hookform/resolvers": "^3.1.0",
     "@mui/material": "^5.13.6",
     "@phosphor-icons/react": "^2.0.9",
+    "@pwabuilder/cli": "^0.0.15",
     "axios": "^1.3.6",
     "flowbite-react": "^0.7.2",
     "keen-slider": "^6.8.5",
