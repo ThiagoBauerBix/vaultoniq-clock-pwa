@@ -13,11 +13,14 @@ export default ({ mode }) => {
     },
     server: {
       host: true,
-      port: 3000,
+      port: 3006,
       hmr: {
         overlay: false
       }
     },
     plugins: [react()],
+    optimizeDeps: {
+      exclude: ['@vite/client', '@vite/env'],
+    },
   })
 }
